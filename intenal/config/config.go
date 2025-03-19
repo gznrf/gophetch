@@ -3,7 +3,6 @@ package config
 import (
 	"encoding/json"
 	"fmt"
-	"io"
 	"os"
 	"path/filepath"
 )
@@ -22,29 +21,6 @@ type Config struct {
 	RAM            bool `json:"ram"`
 }
 
-func NewConfig(photoPath string,
-	os,
-	kernel,
-	packageManager,
-	shell,
-	wm,
-	terminal,
-	cpu,
-	gpu,
-	ram bool) *Config {
-	return &Config{
-		PhotoPath:      photoPath,
-		OS:             os,
-		Kernel:         kernel,
-		PackageManager: packageManager,
-		Shell:          shell,
-		Terminal:       terminal,
-		CPU:            cpu,
-		GPU:            gpu,
-		RAM:            ram,
-	}
-}
-
 func (conf *Config) Load() {
 	// Получаем домашнюю директорию
 	homeDir, err := os.UserHomeDir()
@@ -54,15 +30,13 @@ func (conf *Config) Load() {
 
 	// Корректный путь к файлу
 	configPath := filepath.Join(homeDir, ".config", "gophetch", "config.json")
-	jsonFile, err := os.Open(configPath)
+	jsonFile, err := os.ReadFile(configPath)
 	if err != nil {
 		fmt.Println(err)
 		panic("Error with opening file")
 	}
-	fmt.Println("Successfully Opened json file")
-	defer jsonFile.Close()
-
-	byteEmpValue, _ := io.ReadAll(jsonFile)
-
-	json.Unmarshal(byteEmpValue, &conf)
+	err = json.Unmarshal(jsonFile, &conf)
+	if err != nil {
+		fmt.Println(err)
+	}
 }

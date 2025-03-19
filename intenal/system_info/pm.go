@@ -27,7 +27,7 @@ func detectPackageManagerByEnv() string {
 
 	for cmd, name := range managers {
 		if _, err := exec.LookPath(cmd); err == nil {
-			return name, true
+			return name
 		}
 	}
 
