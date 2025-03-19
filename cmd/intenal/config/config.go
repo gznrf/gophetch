@@ -16,7 +16,6 @@ type Config struct {
 	Kernel         bool `json:"kernel"`
 	PackageManager bool `json:"package_manager"`
 	Shell          bool `json:"shell"`
-	WindowManager  bool `json:"window_manager"`
 	Terminal       bool `json:"terminal"`
 	CPU            bool `json:"cpu"`
 	GPU            bool `json:"gpu"`
@@ -39,7 +38,6 @@ func NewConfig(photoPath string,
 		Kernel:         kernel,
 		PackageManager: packageManager,
 		Shell:          shell,
-		WindowManager:  wm,
 		Terminal:       terminal,
 		CPU:            cpu,
 		GPU:            gpu,
