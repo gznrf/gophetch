@@ -3,6 +3,7 @@ package system_info
 import (
 	"fmt"
 
+	"atomicgo.dev/cursor"
 	"github.com/gznrf/gophetch.git/intenal/config"
 )
 
@@ -69,28 +70,32 @@ func (sysInf *SystemInfo) GetByConfig() {
 }
 
 func (sysInf *SystemInfo) Print() {
-	if sysInf.OS != "" {
-		fmt.Println(sysInf.OS)
+	conf := sysInf.conf
+	cursor.Right(22)
+	cursor.Up(9)
+	isParamExists("OS:", sysInf.OS, conf.OSColor)
+	cursor.Right(22)
+	isParamExists("Kernel:", sysInf.Kernel, conf.KernelColor)
+	cursor.Right(22)
+	isParamExists("PM:", sysInf.PackageManager, conf.PackageManagerColor)
+	cursor.Right(22)
+	isParamExists("Shell", sysInf.Shell, conf.ShellColor)
+	cursor.Right(22)
+	isParamExists("Term:", sysInf.Terminal, conf.TerminalColor)
+	cursor.Right(22)
+	isParamExists("CPU", sysInf.CPU, conf.CPUColor)
+	cursor.Right(22)
+	isParamExists("GPU", sysInf.GPU, conf.GPUColor)
+	cursor.Right(22)
+	isParamExists("RAM", sysInf.RAM, conf.RAMColor)
+
+}
+
+func isParamExists(paramDisc, param, color string) {
+	if color == "" {
+		color = "#5cb7ec"
 	}
-	if sysInf.Kernel != "" {
-		fmt.Println(sysInf.Kernel)
-	}
-	if sysInf.PackageManager != "" {
-		fmt.Println(sysInf.PackageManager)
-	}
-	if sysInf.Shell != "" {
-		fmt.Println(sysInf.Shell)
-	}
-	if sysInf.Terminal != "" {
-		fmt.Println(sysInf.Terminal)
-	}
-	if sysInf.CPU != "" {
-		fmt.Println(sysInf.CPU)
-	}
-	if sysInf.GPU != "" {
-		fmt.Println(sysInf.GPU)
-	}
-	if sysInf.RAM != "" {
-		fmt.Println(sysInf.RAM)
+	if param != "" {
+		fmt.Println(paramDisc, colorText(param, color))
 	}
 }
